@@ -1,55 +1,70 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
+  ScrollView,
+  Text,
   View,
-  Text
+  AsyncStorage
 } from 'react-native'
+import {Spinner} from 'native-base'
 import Card from './Card'
 
 class Campaign extends Component {
     constructor(props) {
         super(props)
+        this.state = {
+            data: [],
+            token: ''
+        }
     }
+    componentDidMount() {
+            AsyncStorage.getItem('@MySuperStore:key', (err,r) => {
+                console.log(r)
+                if (r) {
+                    fetch('https://cryptic-lowlands-56194.herokuapp.com/api/campaign', {
+                        method: 'GET',
+                        headers: {
+                            'x-access-token': r,
+                        }
+                    }).then((response) => response.json())
+                    .then((responseJson) => {
+                        console.log(responseJson)
+                        this.setState({
+                            data: responseJson.data,
+                            token: r
+                        })
+                    })
+                    .catch((e) => {
+                        console.error(e);
+                    })
+                } else {
+                    console.warn('err')
+                }
+            });
+        }
     render() {
-        return (
-            <Card />
-        )
+        if(this.state.data.length) {
+            let cards = this.state.data.map((value,i) => {
+                            return (
+                                <Card key={i} value={value} token={this.state.token} />
+                            )
+                        })
+                return (
+                    <View style={{flex: 1}}>
+                        <ScrollView style={styles.container}>
+                            {cards}
+                        </ScrollView>
+                    </View>    
+                )
+        } else {
+            return <Spinner />
+        }
     }
 }
 
 const styles = StyleSheet.create({
-    login: {
+    container: {
         flex: 1,
-        alignItems: 'center',
-        marginTop: 100,
-    },
-    text: {
-        color: 'white',
-        fontSize: 50,
-        marginBottom: 100
-    },
-    body: {
-        flex: 1
-    },
-    linearGradient: {
-        flex: 1
-    },
-    input: {
-        marginTop: 20,
-        width: 300,
-        fontSize: 20,
-        color: 'white'
-    },
-    btn: {
-        justifyContent: 'center',
-        marginTop: 50,
-        borderWidth: 1,
-        borderColor: 'white',
-        padding: 10
-    },
-    loginBtn: {
-        color: 'white',
-        fontSize: 25
     }
 });
 

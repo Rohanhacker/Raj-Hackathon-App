@@ -1,38 +1,52 @@
-import React, { Component } from 'react';
-import { Image } from 'react-native';
-import { Container, Content, Card, CardItem, Left, Body, Thumbnail, Text, Button, Icon } from 'native-base';
-export default class Ccard extends Component {
+import React, { Component } from 'react'
+import { TouchableOpacity } from 'react-native'
+import {  Left, Body, Right, ListItem, Text, Toast } from 'native-base'
+
+export default class Card extends Component {
+    _onPress = (e) => {
+        fetch('https://cryptic-lowlands-56194.herokuapp.com/api/upvote/', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'x-access-token': this.props.token
+            },
+            body: JSON.stringify({
+                campaignId: this.props.campaignId,
+            })
+        }).then((response) => response.json())
+          .then((responseJson) => {
+              console.log(responseJson)
+              if(responseJson.success === true) {
+                  this.props.value.votes += 1
+              } else {
+                  Toast.show({
+                    text: 'Already UPvoted !',
+                    position: 'bottom',
+                    buttonText: 'Okay'
+                })
+              }
+        })
+      .catch((error) => {
+            console.error(error);
+        });
+    }
     render() {
         return (
-            <Container>
-                <Content>
-                    <Card >
-                        <CardItem>
-                            <Left>
-                                <Body>
-                                    <Text>Campaign 1</Text>
-                                    <Text note>JECRC</Text>
-                                </Body>
-                            </Left>
-                          </CardItem>
-                          <CardItem cardBody>
-  <Image
-          style={{width: 400, height: 200}}
-          source={{uri: 'http://facebook.github.io/react/img/logo_og.png'}}
-        />
-                          </CardItem>
-                          <CardItem content>
-                              <Text>dhak hsdk fkdsfh dk</Text>
-                          </CardItem>
-                          <CardItem style={{ justifyContent: 'space-around' }}>
-                              <Button transparent>
-                                  <Icon active name="thumbs-up" />
-                                  <Text>12 votes</Text>
-                              </Button>
-                        </CardItem>
-                   </Card>
-                </Content>
-            </Container>
-        )
+                <ListItem thumbnail>
+                        <Left>
+                            <Text style={{color: 'green'}}>{this.props.value.votes} votes</Text>
+                         </Left>
+                        <Body>
+                            <Text>{this.props.value.title}</Text>
+                            <Text note>{this.props.value.details}</Text>
+                        </Body>
+                        <Right>
+                            <TouchableOpacity onPress={this._onPress}>
+                                <Text style={{color: 'green'}}>Vote</Text>
+                            </TouchableOpacity>
+                        </Right>
+                    </ListItem>
+        );
     }
 }

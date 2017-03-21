@@ -83,7 +83,7 @@ export default class Accounts extends Component {
         <TouchableHighlight onPress={() => {
           this.setModalVisible(true)
         }}>
-          <Text style={styles.text}>Show Modal</Text>
+          <Text style={styles.text}>SignUp</Text>
         </TouchableHighlight>
 
       </View>

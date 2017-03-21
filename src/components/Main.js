@@ -10,7 +10,7 @@ import {
 import Accounts from './Modal'
 import { connect } from 'react-redux'
 import { createAction } from 'redux-actions'
-import Campaign from './Campaigns'
+import Tabs from './Tab'
 import LinearGradient from 'react-native-linear-gradient'
 
 const mapStateToProps = (state) => ({
@@ -20,6 +20,9 @@ const mapStateToProps = (state) => ({
 const mapActionsToProps = (dispatch) => ({
   loginUser() {
     return dispatch(createAction('LOGIN')());
+  },
+  logoutUser() {
+      return dispatch(createAction('LOGOUT')());
   }
 });
 
@@ -31,6 +34,16 @@ class Main extends Component {
             password: ''
         }
     }
+    componentDidMount() {
+        AsyncStorage.getItem('@MySuperStore:key', (err,r) => {
+            console.log(r)
+            if (r) {
+                this.props.loginUser()
+            }
+        }
+        )
+    }
+
     handleEmailChange = (e) => {
         this.setState({
             email: e
@@ -71,7 +84,7 @@ class Main extends Component {
                 <View style={styles.body}>
                     <LinearGradient colors={['#4A148C', '#880E4F']} style={styles.linearGradient}>
                         <View style={styles.login}>
-                            <Text style={styles.text}>Naam</Text>
+                            <Text style={styles.text}>Go SOcial</Text>
                             <TextInput underlineColorAndroid={'white'} onChangeText={this.handleEmailChange} placeholderTextColor={'white'} placeholder="Username" style={styles.input} value={this.state.email} />
                             <TextInput underlineColorAndroid={'white'} placeholderTextColor={'white'} onChangeText={this.handlePasswordChange} placeholder="Password" style={styles.input} secureTextEntry={true} value={this.state.password} />
                             <TouchableOpacity onPress={this._onPress} style={styles.btn} >
@@ -85,7 +98,7 @@ class Main extends Component {
                 </View>
             )
         } else {
-            return <Campaign />
+            return <Tabs logout={this.props.logoutUser} />
         }
     }
 }
