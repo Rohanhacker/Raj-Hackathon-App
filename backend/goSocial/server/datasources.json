@@ -1,0 +1,16 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "MongoDB": {
+    "host": "mlab.com",
+    "port": 45389,
+    "url": "mongodb://admin:yolo2017@ds137100.mlab.com:37100/gosocial",
+    "database": "gosocial",
+    "password": "yolo2017",
+    "name": "MongoDB",
+    "user": "admin",
+    "connector": "mongodb"
+  }
+}

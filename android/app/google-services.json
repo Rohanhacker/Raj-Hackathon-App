@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "516679467826",
+    "firebase_url": "https://emitra-3bf15.firebaseio.com",
+    "project_id": "emitra-3bf15",
+    "storage_bucket": "emitra-3bf15.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:516679467826:android:16bed155c6cf5a6c",
+        "android_client_info": {
+          "package_name": "com.emitra"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "516679467826-qq9qeknq4olt586qqc7s6lha7qf8iuel.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5XcU-iWEr-N3nfsPynVH55Th2F0JwQoU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
